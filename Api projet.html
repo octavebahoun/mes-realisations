@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pokémon Info</title>
+  </head>
+  <body>
+    <input type="text" id="pokemonInput" placeholder="Entrez un nom de Pokémon" />
+    <button onclick="getPokemon()">Rechercher</button>
+    <div id="result"></div>
+
+    <script>
+      function getPokemon() {
+        const name = document.getElementById("pokemonInput").value.toLowerCase();
+        fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+          .then(response => {
+            if (!response.ok) throw new Error("Pokémon introuvable");
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+            document.getElementById("result").innerHTML = `
+              <h2>${data.name}</h2>
+              <img src="${data.sprites.front_default}" alt="${data.name}" />
+              <p>Hauteur : ${data.height} décimètres</p>
+              <p>Poids : ${data.weight} hectogrammes</p>
+              <p>Type : ${data.types[0].type.name}</p>
+            `;
+            
+          })
+          .catch(error => {
+            document.getElementById("result").textContent = error.message;
+          });
+        
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  ...
+  <style>
+    /* Mise en page générale */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    /* Boîte du formulaire */
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Espacement entre chaque champ */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    /* Style des labels */
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Style des inputs */
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    /* Style du bouton */
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    /* Texte d'erreur */
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+      display: block;
+    }
+
+    /* Zone de résumé de soumission */
+    .summary {
+      margin-top: 20px;
+      padding: 10px;
+      background: #e7f5ff;
+      border-left: 4px solid #007bff;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Inscription</h1>
+    <form id="register-form">
+      <div class="form-group">
+        <label for="name">Nom complet</label>
+        <input type="text" id="name" placeholder="Votre nom" />
+        <small class="error" id="name-error"></small>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Adresse e-mail</label>
+        <input type="email" id="email" placeholder="email@example.com" />
+        <small class="error" id="email-error"></small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" placeholder="********" />
+        <small class="error" id="password-error"></small>
+      </div>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+
+    <div class="summary" id="form-summary"></div>
+  </div>
+  <script>
+// Récupération du formulaire
+const form = document.getElementById('register-form');
+
+// Fonction pour valider un email avec une regex simple
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// Affiche un message d’erreur dans le <small> correspondant
+function showError(id, message) {
+  const errorElement = document.getElementById(id);
+  errorElement.textContent = message;
+}
+
+// Vide tous les messages d'erreurs
+function clearErrors() {
+  document.querySelectorAll('.error').forEach(e => e.textContent = '');
+}
+
+// Gestion de la soumission du formulaire
+form.addEventListener('submit', function(e) {
+  e.preventDefault(); // Empêche le rechargement automatique
+
+  clearErrors(); // On vide les anciennes erreurs
+
+  // On récupère les valeurs
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  let isValid = true;
+
+  // Validation du champ nom
+  if (name === '') {
+    showError('name-error', 'Le nom est requis');
+    isValid = false;
+  }
+
+  // Validation de l'email
+  if (!validateEmail(email)) {
+    showError('email-error', 'Email invalide');
+    isValid = false;
+  }
+
+  // Validation du mot de passe
+  if (password.length < 6) {
+    showError('password-error', 'Mot de passe trop court');
+    isValid = false;
+  }
+
+  // Si tout est bon, on affiche un résumé
+  if (isValid) {
+    document.getElementById('form-summary').innerHTML = `
+      <strong>Inscription réussie !</strong><br>
+      Nom : ${name}<br>Email : ${email}
+    `;
+    document.getElementById('form-summary').style.display = 'block';
+    form.reset(); // On vide le formulaire
+  }
+});
+  
+  </script>
+</body>
+</html>

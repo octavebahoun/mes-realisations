@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cours PHP complet pour débutant – Partie 1</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    .encadre {
+      background: #e0f7fa;
+      border-left: 5px solid #00796b;
+      padding: 10px 15px;
+      margin: 20px 0;
+      font-style: italic;
+    }
+    .astuce {
+      background: #fff3e0;
+      border-left: 5px solid #f57c00;
+      padding: 10px 15px;
+      margin: 20px 0;
+    }
+    .exercice {
+      background: #e8f5e9;
+      border-left: 5px solid #388e3c;
+      padding: 10px 15px;
+      margin: 20px 0;
+    }
+    code {
+      background-color: #eee;
+      padding: 2px 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      overflow-x: auto;
+      border-radius: 4px;
+    }
+    a {
+      color: #00796b;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cours PHP complet pour débutant – Partie 1 : Bases du langage PHP</h1>
+
+  <h2>Chapitre 1 : Introduction au PHP</h2>
+  <p>PHP est un langage de programmation principalement utilisé pour créer des sites web dynamiques. Il s’exécute côté serveur et peut générer du contenu HTML, interagir avec des bases de données, gérer des sessions, etc.</p>
+  
+  <div class="encadre">
+    <strong>Mémo :</strong> Pour commencer, installe un serveur local comme <code>XAMPP</code> ou <code>WAMP</code> qui contient Apache, PHP et MySQL. Active le serveur Apache et place tes fichiers PHP dans le dossier <code>htdocs</code> (XAMPP) ou <code>www</code> (WAMP).</div>
+
+  <div class="astuce">
+    <strong>Astuce développeur :</strong> En développement, active l’affichage des erreurs avec <code>error_reporting(E_ALL); ini_set('display_errors', 1);</code> au début de tes scripts PHP pour faciliter le debug.
+  </div>
+
+  <div class="exercice">
+    <strong>Exercice :</strong> Crée un fichier <code>index.php</code> contenant la ligne <code>&lt;?php echo "Hello, world!"; ?&gt;</code>. Ouvre-le dans ton navigateur via <code>localhost/index.php</code> et vérifie que le message s’affiche.
+  </div>
+
+  <h2>Chapitre 2 : Syntaxe de base</h2>
+  <p>En PHP, les variables commencent toujours par <code>$</code>. Le langage est faiblement typé, donc les types sont attribués automatiquement.</p>
+  
+  <pre><code>// Exemple de variables
+$nom = "Octave";
+$age = 23;
+$estEtudiant = true;
+
+echo "Je m'appelle $nom et j'ai $age ans."; // Interpolation</code></pre>
+  
+  <div class="encadre">
+    <strong>Mémo :</strong> Les principaux types en PHP sont <code>string</code>, <code>int</code>, <code>float</code>, <code>bool</code>, <code>array</code>, <code>object</code>, et <code>null</code>.
+  </div>
+
+  <div class="exercice">
+    <strong>Exercice :</strong> Déclare des variables pour ton prénom, ton âge, et ton hobby. Affiche une phrase utilisant ces variables.
+  </div>
+
+</body>
+</html>

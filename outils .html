@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Outils Dev Fullstack Laravel + Vue + Tailwind</title>
+<style>
+  /* Reset minimal */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9fafb;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px;
+  }
+  h1, h2 {
+    color: #1f2937;
+  }
+  h1 {
+    text-align: center;
+    margin: 40px 0 20px;
+  }
+  h2 {
+    margin-top: 30px;
+    border-bottom: 2px solid #3b82f6;
+    padding-bottom: 6px;
+  }
+  ul {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  li {
+    margin-bottom: 8px;
+  }
+  code {
+    background: #e0e7ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+  }
+  footer {
+    text-align: center;
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Outils Dev Fullstack Laravel + Vue + Tailwind</h1>
+
+  <section>
+    <h2>1. Environnement de développement local</h2>
+    <ul>
+      <li><strong>PHP (≥ 8.x)</strong> : Laravel nécessite PHP 8 ou supérieur.</li>
+      <li><strong>Composer</strong> : gestionnaire de dépendances PHP.</li>
+      <li><strong>Node.js & npm/yarn</strong> : pour gérer les dépendances frontend et compiler les assets.</li>
+      <li><strong>Serveur local :</strong>
+        <ul>
+          <li><code>Laravel Sail</code> (Docker, recommandé)</li>
+          <li>Sinon <code>XAMPP</code> / <code>MAMP</code> / <code>WAMP</code> (moins conseillé)</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Framework & librairies</h2>
+    <ul>
+      <li><strong>Laravel Framework</strong> (backend PHP)</li>
+      <li><strong>Vue.js</strong> (framework frontend, version 3 recommandée)</li>
+      <li><strong>Tailwind CSS</strong> (framework CSS utilitaire)</li>
+      <li><strong>Inertia.js</strong> (optionnel, pour SPA Laravel + Vue sans API REST séparée)</li>
+      <li><strong>Axios</strong> ou <code>fetch</code> (pour requêtes AJAX)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Éditeur de code / IDE</h2>
+    <ul>
+      <li><strong>Visual Studio Code</strong> (très populaire et gratuit)</li>
+      <li>Extensions recommandées :
+        <ul>
+          <li>Laravel Blade Snippets</li>
+          <li>PHP Intelephense</li>
+          <li>Volar ou Vetur (pour Vue 3)</li>
+          <li>Tailwind CSS IntelliSense</li>
+          <li>ESLint / Prettier</li>
+          <li>GitLens</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Base de données</h2>
+    <ul>
+      <li><strong>MySQL / MariaDB</strong> (classique avec Laravel)</li>
+      <li>Ou <strong>PostgreSQL</strong></li>
+      <li>Clients pour gérer la base :
+        <ul>
+          <li>phpMyAdmin (interface web)</li>
+          <li>TablePlus / DBeaver / HeidiSQL (clients desktop)</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Gestion de versions</h2>
+    <ul>
+      <li><strong>Git</strong> (contrôle de version)</li>
+      <li>Plateformes : GitHub, GitLab, Bitbucket</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6. Outils frontend build / compilation</h2>
+    <ul>
+      <li><strong>Laravel Mix</strong> (webpack, par défaut)</li>
+      <li><strong>Vite</strong> (plus moderne, recommandé Laravel 9+)</li>
+      <li>Commandes npm courantes :
+        <ul>
+          <li><code>npm install</code> / <code>yarn</code> — installer dépendances</li>
+          <li><code>npm run dev</code> — build dev avec watch</li>
+          <li><code>npm run build</code> — build production</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Debugging & tests</h2>
+    <ul>
+      <li><strong>Laravel Telescope</strong> (debug backend Laravel)</li>
+      <li><strong>Laravel Debugbar</strong> (barre debug dans navigateur)</li>
+      <li><strong>Vue Devtools</strong> (extension navigateur pour Vue)</li>
+      <li>Tests automatisés :
+        <ul>
+          <li>PHPUnit (backend)</li>
+          <li>Jest / Cypress (frontend)</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8. Déploiement</h2>
+    <ul>
+      <li><strong>Serveur web</strong> : Apache ou Nginx + PHP-FPM</li>
+      <li><strong>Laravel Forge</strong> (outil de déploiement simplifié)</li>
+      <li><strong>Envoyer</strong> (outil Laravel de déploiement)</li>
+      <li>CI/CD : GitHub Actions, GitLab CI</li>
+      <li>Hébergement : DigitalOcean, Linode, AWS, Hetzner...</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>9. Autres outils utiles</h2>
+    <ul>
+      <li><strong>Postman</strong> / <strong>Insomnia</strong> (tester API)</li>
+      <li><strong>Docker</strong> (environnement dev stable)</li>
+      <li><strong>Tinkerwell</strong> (tester code Laravel en live)</li>
+      <li><strong>npm-run-all</strong> (gérer scripts npm en parallèle)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Résumé minimal pour commencer</h2>
+    <ul>
+      <li>PHP 8 + Composer</li>
+      <li>Laravel via Composer</li>
+      <li>Node.js + npm/yarn</li>
+      <li>VS Code + extensions Blade, Vue, Tailwind</li>
+      <li>MySQL + client DB</li>
+      <li>Git + GitHub</li>
+      <li>Laravel Mix ou Vite pour builder frontend</li>
+      <li>Vue Devtools</li>
+      <li>Postman</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  &copy; 2025 - Octave BAHOUN - Tous droits réservés
+</footer>
+
+</body>
+</html>

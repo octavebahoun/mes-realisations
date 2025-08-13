@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Cours JS - async/await</title>
+  <style>
+    * {
+      font-size: auto;
+
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      background-color: #f4f4f4;
+      padding: 2em;
+      line-height: 1.6;
+    }
+
+    h1,
+    h2 {
+      color: #333;
+    }
+
+    code {
+      background: #eee;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: rgb(224, 62, 3);
+    }
+
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #demo {
+      background: white;
+      padding: 1em;
+      margin-top: 1em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .italic {
+      font-style: italic;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📘 Cours JavaScript : async / await</h1>
+
+  <p>La programmation <strong>asynchrone</strong> permet à JavaScript de continuer à fonctionner sans être bloqué
+    pendant qu’il attend une réponse (ex : d’un serveur API).</p>
+
+  <h2>1. Pourquoi async / await ?</h2>
+  <h2>1.1. Rappel rapide : qu’est-ce qu’une promesse ?</h2>
+  <p>Une <strong>promesse</strong> est un objet JavaScript représentant une tâche asynchrone. Elle peut être :</p>
+  <ul>
+    <li><strong>en attente</strong> (pending)</li>
+    <li><strong>résolue</strong> (fulfilled)</li>
+    <li><strong>échouée</strong> (rejected)</li>
+  </ul>
+  <p>On utilise <code>.then()</code> pour gérer les succès, et <code>.catch()</code> pour gérer les erreurs.</p>
+
+  <pre><code>fetch("https://animechan.vercel.app/api/random")
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+</code></pre>
+  <p>Mais ce style peut vite devenir compliqué si on enchaîne plusieurs actions. D’où l’intérêt de
+    <code>async/await</code>.
+  </p>
+  <p>Avant, on utilisait <code>.then()</code> pour chaîner les actions. Mais c’était vite difficile à lire.</p>
+
+  <p><strong>Avec <code>async</code> et <code>await</code></strong>, ton code devient plus clair et plus linéaire.</p>
+
+  <h2>2. Syntaxe de base</h2>
+  <pre><code>async function maFonction() {
+  try {
+    const reponse = await fetch("https://animechan.vercel.app/api/random");
+    const data = await reponse.json();
+    console.log(data);
+  } catch (err) {
+    console.error("Erreur :", err.message);
+  }
+}</code></pre>
+
+  <p><code>await</code> bloque l'exécution jusqu'à ce que la réponse arrive.</p>
+
+  <h2>3. Démo en direct</h2>
+  <h2>2.1. Comparaison visuelle</h2>
+  <p>Regarde comme la version <strong>async/await</strong> est plus lisible :</p>
+
+  <div style="display: flex; gap: 2em; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 250px;">
+      <h3 style="color: darkred;">Avec .then()</h3>
+      <pre><code>fetch(url)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(err => {
+    console.error(err);
+  });</code></pre>
+    </div>
+
+    <div style="flex: 1; min-width: 250px;">
+      <h3 style="color: darkgreen;">Avec async/await</h3>
+      <pre><code>async function maFonction() {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="italic">Clique pour obtenir une citation d'anime depuis une API</p>
+  <button onclick="obtenirCitation()">Obtenir une citation</button>
+
+  <div id="demo"></div>
+
+  <script>
+    async function obtenirCitation() {
+      const demo = document.getElementById("demo");
+      demo.innerHTML = "<p><em>Chargement en cours...</em></p>";
+
+      try {
+        const res = await fetch("https://animechan.vercel.app/api/random");
+        const data = await res.json();
+
+        demo.innerHTML = `
+          <h3>${data.character} — <em>${data.anime}</em></h3>
+          <blockquote>"${data.quote}"</blockquote>
+        `;
+        const res2 = await fetch("https://animechan.vercel.app/api/random");
+        const data2 = await res2.json();
+
+        demo.innerHTML = `
+          <h3>${data2.character} — <em>${data2.anime}</em></h3>
+          <blockquote>"${data2.quote}"</blockquote>
+        `;
+      } catch (err) {
+        demo.innerHTML = `<p style="color:red;">Erreur : ${err.message}</p>`;
+      }
+    }
+    async function obtenirCitation() {
+      const demo = document.getElementById("demo");
+      demo.innerHTML = "<p><em>Chargement en cours...</em></p>";
+
+      try {
+        // On récupère les données de l'API
+        const res = await fetch("https://animechan.vercel.app/api/random");
+
+        // On attend que la réponse soit convertie en JSON
+        const data = await res.json();
+
+        // On insère le résultat dans le HTML
+        demo.innerHTML = `
+      <h3>${data.character} — <em>${data.anime}</em></h3>
+      <blockquote>"${data.quote}"</blockquote>
+    `;
+      } catch (err) {
+        // En cas d’erreur (ex : pas de connexion), on affiche un message
+        demo.innerHTML = `<p style="color:red;">Erreur : ${err.message}</p>`;
+      }
+    }
+  </script>
+
+  <h2>4. Fonctions async fléchées</h2>
+  <p>Tu peux aussi écrire des fonctions async avec la syntaxe fléchée :</p>
+  <pre><code>const obtenirCitation = async () => {
+  try {
+    const res = await fetch("https://animechan.vercel.app/api/random");
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    console.error("Erreur :", err.message);
+  }
+};</code></pre>
+
+  <h2>5. Attendre plusieurs requêtes en parallèle</h2>
+  <p>Utilise <code>Promise.all()</code> pour accélérer plusieurs requêtes :</p>
+  <pre><code>async function chargerToutesLesCitations() {
+  const urls = [
+    "https://animechan.vercel.app/api/random",
+    "https://animechan.vercel.app/api/random",
+  ];
+
+  try {
+    const resultats = await Promise.all(
+      urls.map(url => fetch(url).then(res => res.json()))
+    );
+    console.log(resultats);
+  } catch (err) {
+    console.error("Erreur :", err.message);
+  }
+}</code></pre>
+
+  <h2>6. Simulation de délai (temporisation)</h2>
+  <button onclick="demoDelai()">Tester la temporisation</button>
+  <pre><code>function attente(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demoDelai() {
+  console.log("Attente de 2 secondes...");
+  await attente(2000);
+  console.log("Fin de l'attente !");
+}</code></pre>
+
+  <h2>7. Attention ⚠️</h2>
+  <ul>
+    <li><code>await</code> ne fonctionne que dans une fonction <code>async</code></li>
+    <li>Tu ne peux pas l’utiliser en dehors de ce contexte</li>
+  </ul>
+
+  <h2>8. Avantages de async/await</h2>
+  <ul>
+    <li>Lisibilité naturelle du code</li>
+    <li>Facile à maintenir</li>
+    <li>Compatible avec <code>try/catch</code></li>
+    <li>Parfait pour les projets avec API</li>
+  </ul>
+
+  <h2>9. À retenir</h2>
+  <ul>
+    <li><code>async</code> permet d’utiliser <code>await</code> dans une fonction</li>
+    <li><code>await</code> attend que la promesse se résolve</li>
+    <li>Utilise <code>try/catch</code> pour éviter les plantages</li>
+  </ul>
+  <h2>9.1. Erreurs fréquentes à éviter</h2>
+  <ul>
+    <li>❌ Oublier d’écrire <code>async</code> avant la fonction ➜ <code>await</code> ne marchera pas</li>
+    <li>❌ Essayer d’utiliser <code>await</code> en dehors d’une fonction ➜ erreur de syntaxe</li>
+    <li>❌ Ne pas gérer les erreurs avec <code>try/catch</code> ➜ plantage possible</li>
+  </ul>
+
+  <h2>9.2. Mini-FAQ 🤔</h2>
+  <details>
+    <summary><strong>Pourquoi faut-il attendre avec await ?</strong></summary>
+    <p>Parce qu’une fonction asynchrone retourne une promesse, et on veut attendre qu’elle soit terminée avant de
+      continuer le code.</p>
+  </details>
+
+  <details>
+    <summary><strong>Est-ce que ça bloque le navigateur ?</strong></summary>
+    <p>Non ! <code>await</code> bloque juste la fonction actuelle, pas tout le navigateur.</p>
+  </details>
+
+  <details>
+    <summary><strong>Quelle différence entre async et setTimeout ?</strong></summary>
+    <p><code>setTimeout</code> lance une tâche plus tard ; <code>await</code> attend qu'une tâche asynchrone se termine.
+    </p>
+  </details>
+  <h2>10. 🎯 Mini-défi</h2>
+  <p class="italic">💡 Modifie le script pour afficher deux citations simultanément au lieu d’une seule. Utilise
+    <code>Promise.all()</code> !
+  </p>
+
+</body>
+
+</html>

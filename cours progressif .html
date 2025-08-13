@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+  <style>
+  </style>
+</head>
+<body>
+  <h1 id="ttre">Bonjour Octave !</h1>
+  <h2 id="titre">Clique sur le bouton</h2>
+<button id="changerTexte">Changer le texte</button>
+  <h1 id="valeur">0</h1>
+<button id="plus">+1</button>
+<button id="moins">-1</button>
+  <button id="reset">reset</button>
+</body>
+<script>
+
+let ttre = document.getElementById("titre")
+console.log(ttre.textContent)
+ttre.textContent = "Salut Octave !"
+ttre.style.color = "blue"
+ttre.classList.add("active")
+let nouveauParagraphe = document.createElement("p")
+nouveauParagraphe.textContent = "Ceci est un paragraphe ajouté en JS !"
+document.body.appendChild(nouveauParagraphe)
+document.body.removeChild(nouveauParagraphe)
+
+const btn = document.getElementById("changerTexte")
+const titre = document.getElementById("titre")
+
+btn.addEventListener("click", () => {
+  titre.textContent = "Tu as cliqué sur le bouton !";
+  titre.style.color = "blue";
+})
+
+const val = document.getElementById("valeur")
+const btnPlus = document.getElementById("plus")
+const btnMoins = document.getElementById("moins")
+
+let compteur = 0
+
+btnPlus.addEventListener("click", () => {
+  compteur++
+  val.textContent = compteur
+  color()
+  if (compteur > -10) {
+    btnMoins.disabled=false;
+  }
+   
+})
+
+btnMoins.addEventListener("click", () => {
+  compteur--
+  val.textContent = compteur
+  color()
+   if (compteur===-10) {
+    btnMoins.disabled=true;
+  } 
+  
+})
+
+const reset = document.getElementById("reset")
+reset.addEventListener("click", () => {
+  val.textContent = 0
+  titre.textContent = "Cliqué sur le bouton !";
+})
+  function color(){
+    if (compteur< 0 ) { val.style.color="red";}
+    else if(compteur > 0 ) { val.style.color="blue";}
+  }
+
+
+</script>
+</html>

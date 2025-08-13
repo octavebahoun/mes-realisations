@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello!</title>
+</head>
+<body>
+  <h1>
+    Hello, World!
+  </h1>
+</body>
+<script>
+const afficheHeure = () => {
+  const maintenant = new Date();
+  const heures = maintenant.getHours();
+  const minutes = maintenant.getMinutes();
+  const secondes = maintenant.getSeconds();
+
+  const heureFormatee = `Il est ${heures}:${minutes}:${secondes}`;
+  return heureFormatee;
+};
+
+console.log(afficheHeure());
+class Chat {
+  constructor(nom) {
+    this.nom = nom;
+  }
+
+  miauler() {
+    console.log(`${this.nom} fait miaou 🐱`);
+  }
+}
+
+let c = new Chat("Neko");
+c.miauler(); // Neko fait miaou 🐱
+
+class Animal {
+  constructor(nom) {
+    this.nom = nom;
+  }
+
+  parler() {
+    console.log(`${this.nom} fait un bruit`);
+  }
+}
+
+class Chien extends Animal {
+  aboyer() {
+    console.log(`${this.nom} aboie 🐶`);
+  }
+}
+
+let rex = new Chien("Rex");
+rex.parler();  // Rex fait un bruit
+rex.aboyer();  // Rex aboie 🐶
+
+
+const estPair = a => a % 2 === 0;
+console.log(estPair(6)); // true
+console.log(estPair(7)); // false
+
+function direBonjour(prenom) {
+  console.log("Bonjour, " + prenom);
+}
+
+function traiterUtilisateur(callback) {
+  const nom = "Octave";
+  callback(nom); // on appelle le callback
+}
+
+traiterUtilisateur(direBonjour);
+
+
+
+console.log("Début");
+
+setTimeout(() => {
+  console.log("Je sors après 2 secondes");
+}, 2000); // 2000 ms = 2 secondes
+
+console.log("Fin");
+
+console.error("Finish")
+
+</script>
+</html>

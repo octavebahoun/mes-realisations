@@ -1,0 +1,362 @@
+<!doctype html>
+
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plan 12 mois — Parcours IT</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#7c3aed; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+      --card-radius:18px; --gap:18px; --maxw:1100px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,#071026 0%, #071528 60%); color:#e6eef8; -webkit-font-smoothing:antialiased;
+      display:flex; align-items:auto; justify-content:center; padding:40px 20px;
+    }
+    .wrap{width:100%; max-width:var(--maxw)}
+    header{display:flex; gap:16px; align-items:center; margin-bottom:22px}
+    .logo{width:64px; height:64px; background:linear-gradient(135deg,var(--accent),#06b6d4); border-radius:12px; display:flex;align-items:auto;justify-content:auto;font-weight:700;color:#fff}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:4px 0 0;color:var(--muted);font-size:14px}.controls{display:flex; gap:8px; margin-left:auto}
+.btn{background:var(--glass); border:1px solid rgba(255,255,255,0.04); padding:8px 12px; border-radius:10px; cursor:pointer; color:var(--muted); font-size:13px}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#06b6d4); border:none; color:white}
+
+.timeline{display:grid; grid-template-columns: 1fr; gap:var(--gap)}
+
+/* month grid */
+.months{display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:var(--card-radius); padding:16px; border:1px solid rgba(255,255,255,0.03)}
+.month-title{display:flex;align-items:center;gap:10px}
+.badge{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-weight:700}
+h3{margin:0;font-size:16px}
+.sub{color:var(--muted);font-size:13px;margin-top:6px}
+
+ul.tasks{margin:12px 0 0;padding:0; list-style:none}
+ul.tasks li{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.01); margin-bottom:8px; font-size:14px}
+ul.tasks li small{display:block;color:var(--muted);font-size:12px;margin-top:6px}
+
+.foot{display:flex;gap:10px;align-items:center;margin-top:12px}
+.pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-size:12px;color:var(--muted)}
+
+/* expandable */
+details{margin-top:8px}
+summary{cursor:pointer;list-style:none;outline:none}
+summary::-webkit-details-marker{display:none}
+
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;color:var(--muted)}
+
+footer{color:var(--muted);font-size:13px;margin-top:18px;text-align:center}
+
+/* responsive */
+@media (max-width:600px){body{padding:20px} .logo{width:52px;height:52px} h1{font-size:18px}}
+
+/* print-friendly */
+@media print{body{background:white;color:black} .btn,.controls,header .logo{display:none} .card{border:1px solid #ddd}}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">IT</div>
+      <div>
+        <h1>Plan d'étude — 12 mois (Parcours IT)</h1>
+        <p class="lead">Orienté développement, télécoms & cybersécurité — progression mensuelle claire, projets et certifications.</p>
+      </div>
+      <div class="controls">
+        <button class="btn" onclick="print()">Imprimer / PDF</button>
+        <button class="btn primary" id="markAll">Marquer tout lu</button>
+      </div>
+    </header><section class="card">
+  <div class="legend">
+    <div class="pill">🔧 Dev Web & Backend</div>
+    <div class="pill">🌐 Frontend (Vue, Tailwind)</div>
+    <div class="pill">📡 Réseaux & Télécoms</div>
+    <div class="pill">🔒 Cybersécurité</div>
+    <div class="pill">📁 Projets & Portfolio</div>
+  </div>
+
+  <div class="timeline">
+    <div class="months" id="months">
+
+      <!-- Month 1 -->
+      <article class="card" data-month="1">
+        <div class="month-title">
+          <div class="badge">M1</div>
+          <div>
+            <h3>Mois 1 — Fondations & Environnement</h3>
+            <div class="sub">Linux, Git, Python (bases), HTML/CSS</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Linux & CLI — commandes de base, gestion fichiers. <small>Ressources: Linux Journey / Codecademy</small></li>
+          <li>Git & GitHub — workflow, branches, PR. <small>Crée ton repo personnel</small></li>
+          <li>Python — syntaxe, types, fonctions, scripts simples. <small>FreeCodeCamp / Exercices</small></li>
+          <li>HTML/CSS — structure, box model, flexbox. <small>Petit projet: page perso</small></li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 6–8h / semaine</div>
+          <div class="pill">🎯 Objectif: setup + repo Git</div>
+        </div>
+      </article>
+
+      <!-- Month 2 -->
+      <article class="card" data-month="2">
+        <div class="month-title">
+          <div class="badge">M2</div>
+          <div>
+            <h3>Mois 2 — Algorithms & Data Structures</h3>
+            <div class="sub">Bases algorithmique + complexité</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Complexité (O-notation) et structures: listes, stacks, queues. <small>Exercices pratiques</small></li>
+          <li>Algorithmes classiques: tri, recherche binaire, récursion.</li>
+          <li>Plateforme: résous 50 petits problèmes sur <strong>LeetCode (facile)</strong> ou Codewars.</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 8–10h / semaine</div>
+          <div class="pill">🎯 Objectif: 50 problèmes résolus</div>
+        </div>
+      </article>
+
+      <!-- Month 3 -->
+      <article class="card" data-month="3">
+        <div class="month-title">
+          <div class="badge">M3</div>
+          <div>
+            <h3>Mois 3 — Web Backend (Python)</h3>
+            <div class="sub">Flask ou Django — routes, templates, DB</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Flask: routes, forms, Jinja templates. <small>Mini-API + CRUD</small></li>
+          <li>Base de données: SQLite → SQL basique (SELECT, JOIN). <small>ORM léger (SQLAlchemy)</small></li>
+          <li>Déploie l'app sur Heroku/GitHub Pages (front) / Render (backend)</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 10h / semaine</div>
+          <div class="pill">🎯 Objectif: API CRUD déployée</div>
+        </div>
+      </article>
+
+      <!-- Month 4 -->
+      <article class="card" data-month="4">
+        <div class="month-title">
+          <div class="badge">M4</div>
+          <div>
+            <h3>Mois 4 — Frontend Moderne</h3>
+            <div class="sub">Vue.js + Tailwind CSS (UI)</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Vue.js: composants, props, events, state. <small>Crée un mini-dashboard</small></li>
+          <li>Tailwind: utility-first, responsive design. <small>Refactorise page perso</small></li>
+          <li>Intégration frontend-backend via fetch/Axios</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 10h / semaine</div>
+          <div class="pill">🎯 Objectif: SPA simple</div>
+        </div>
+      </article>
+
+      <!-- Month 5 -->
+      <article class="card" data-month="5">
+        <div class="month-title">
+          <div class="badge">M5</div>
+          <div>
+            <h3>Mois 5 — Bases de données & API</h3>
+            <div class="sub">MySQL / PostgreSQL, RESTful APIs</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Modélisation: schéma relationnel, normalisation. <small>Conçois une BD pour un blog</small></li>
+          <li>SQL avancé: transactions, index, vues.</li>
+          <li>Construis une API REST avec authentification (JWT)</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 10–12h / semaine</div>
+          <div class="pill">🎯 Objectif: API + BD en prod</div>
+        </div>
+      </article>
+
+      <!-- Month 6 -->
+      <article class="card" data-month="6">
+        <div class="month-title">
+          <div class="badge">M6</div>
+          <div>
+            <h3>Mois 6 — Projet intermédiaire</h3>
+            <div class="sub">Construis une app complète (auth, upload, likes)</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Spécifie le projet: user auth, upload images, likes/favoris.</li>
+          <li>Implémente: backend + frontend + DB.</li>
+          <li>Tests basiques, CI avec GitHub Actions.</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 12–15h / semaine</div>
+          <div class="pill">🎯 Objectif: projet dans ton portfolio</div>
+        </div>
+      </article>
+
+      <!-- Month 7 -->
+      <article class="card" data-month="7">
+        <div class="month-title">
+          <div class="badge">M7</div>
+          <div>
+            <h3>Mois 7 — Réseaux & Télécoms (intro)</h3>
+            <div class="sub">OSI, TCP/IP, routage de base</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Concepts: modèles OSI/TCP-IP, IPv4 vs IPv6.</li>
+          <li>Subnetting, VLANs, routage statique.</li>
+          <li>Commence Cisco Networking Academy ou CCNA intro</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 8–10h / semaine</div>
+          <div class="pill">🎯 Objectif: comprendre le réseau</div>
+        </div>
+      </article>
+
+      <!-- Month 8 -->
+      <article class="card" data-month="8">
+        <div class="month-title">
+          <div class="badge">M8</div>
+          <div>
+            <h3>Mois 8 — Systèmes & DevOps basique</h3>
+            <div class="sub">Docker, processus CI/CD, monitoring</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Docker: conteneurs, Dockerfile, docker-compose.</li>
+          <li>CI/CD: GitHub Actions simples pour tests & déploiement.</li>
+          <li>Surveillance: logs, métriques basiques</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 8–12h / semaine</div>
+          <div class="pill">🎯 Objectif: pipeline et containerisation</div>
+        </div>
+      </article>
+
+      <!-- Month 9 -->
+      <article class="card" data-month="9">
+        <div class="month-title">
+          <div class="badge">M9</div>
+          <div>
+            <h3>Mois 9 — Cybersécurité (init)</h3>
+            <div class="sub">Sécurité web, OWASP, pratiques</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>OWASP Top 10 — comprendre vulnérabilités web.</li>
+          <li>Sécurise ton projet: input validation, auth, CORS.</li>
+          <li>Commence TryHackMe: salles Intro & Web</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 8–10h / semaine</div>
+          <div class="pill">🎯 Objectif: corriger vulnérabilités</div>
+        </div>
+      </article>
+
+      <!-- Month 10 -->
+      <article class="card" data-month="10">
+        <div class="month-title">
+          <div class="badge">M10</div>
+          <div>
+            <h3>Mois 10 — Pentest & Labs</h3>
+            <div class="sub">Labs pratiques, capture the flag</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>TryHackMe: parcours Offensive Security / rooms intermédiaires.</li>
+          <li>Apprends Burp Suite basique, reconnaissance, scanning.</li>
+          <li>Participe à 1 CTF débutant</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 10–15h / semaine</div>
+          <div class="pill">🎯 Objectif: 1 CTF complété</div>
+        </div>
+      </article>
+
+      <!-- Month 11 -->
+      <article class="card" data-month="11">
+        <div class="month-title">
+          <div class="badge">M11</div>
+          <div>
+            <h3>Mois 11 — Spécialisation & Certifications</h3>
+            <div class="sub">Choisis une voie: Télécoms / Backend / Sécurité</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Si télécoms: avancer CCNA / Cisco NetAcad.</li>
+          <li>Si backend: architecture scalabilité & patterns.</li>
+          <li>Si sécurité: poursuivre labs + OSCP prep (si motivé)</li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 8–12h / semaine</div>
+          <div class="pill">🎯 Objectif: passer un examen blanc</div>
+        </div>
+      </article>
+
+      <!-- Month 12 -->
+      <article class="card" data-month="12">
+        <div class="month-title">
+          <div class="badge">M12</div>
+          <div>
+            <h3>Mois 12 — Portfolio & Préparation candidature</h3>
+            <div class="sub">Portfolio, CV technique, entretiens</div>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li>Pack ton meilleur projet: readme, screenshots, demo vidéo.</li>
+          <li>CV + LinkedIn: mots-clés, projets, stack technique.</li>
+          <li>Simule entretiens: algos + questions système. <small>Prépare candidatures (bourses, stages)</small></li>
+        </ul>
+        <div class="foot">
+          <div class="pill">⏱️ 6–10h / semaine</div>
+          <div class="pill">🎯 Objectif: postuler à 5 offres / bourses</div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Tips card -->
+    <aside class="card">
+      <h3>Conseils pratiques</h3>
+      <ul class="tasks">
+        <li>Fixe une routine: sessions courtes mais régulières (1–2h/jour le soir).</li>
+        <li>Apprends en public: commits fréquents, articles courts, thread techniques.</li>
+        <li>Networking: Discord, LinkedIn, GitHub — contribue à 1 projet open-source.</li>
+        <li>Réserve 1 weekend par mois pour approfondir ou rattraper.</li>
+      </ul>
+      <details>
+        <summary class="sub">Ressources recommandées (clique pour ouvrir)</summary>
+        <div style="margin-top:10px;color:var(--muted);font-size:13px">
+          FreeCodeCamp, The Odin Project, Cisco NetAcad, TryHackMe, LeetCode, GitHub, Render, Heroku.
+        </div>
+      </details>
+    </aside>
+
+  </div>
+</section>
+
+<footer>
+  Plan généré automatiquement — adapte la charge selon ton emploi du temps. Besoin d'une version PDF ou d'un export Markdown ? Dis-moi.
+</footer>
+
+  </div>  <script>
+    // Mark all details as open/close toggle
+    document.getElementById('markAll').addEventListener('click', function(){
+      const details = document.querySelectorAll('details');
+      const anyClosed = Array.from(details).some(d => !d.open);
+      details.forEach(d => d.open = anyClosed);
+      this.textContent = anyClosed ? 'Tout réduit' : 'Marquer tout lu';
+    });
+  </script></body>
+</html>

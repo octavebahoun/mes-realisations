@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste d'anniversaires</title>
+  <style>
+    body {
+      background-color: #f7f7f7;
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 2em auto;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .birthday {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 10px;
+      margin-top: 10px;
+      border-left: 5px solid #007BFF;
+      border-radius: 4px;
+    }
+
+    .birthday span {
+      flex: 1;
+    }
+
+    .actions button {
+      margin-left: 10px;
+      background-color: #6c757d;
+    }
+
+    .actions button:first-child {
+      background-color: #28a745;
+    }
+
+    .actions button:last-child {
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎂 Liste d'anniversaires</h1>
+
+  <input type="text" id="nameInput" value=""placeholder="Nom de la personne">
+  <input type="date" value=""id="dateInput">
+  <button id="addBtn">Ajouter</button>
+
+  <div id="birthdayList"></div>
+
+  <script>
+ 
+ 
+  const button=document.getElementById('addBtn')
+  const list=document.getElementById('birthdayList')
+  
+ 
+  
+  
+  button.addEventListener('click', () => {
+    
+    if (nameInput.value==="" || dateInput.value==="")
+    {alert('Ajouter un nom et une date valide')}
+    else {
+    
+    
+     let name=document.getElementById('nameInput').value.trim();
+    console.log(name);
+    
+     let date=document.getElementById('dateInput').value;
+    console.log(date);
+    
+     const div = document.createElement('div')
+  div.cLassList='birthday'
+    
+    const span = document.createElement('span')
+   
+    span.textContent= name + ' né le ' + date ;
+     
+    const souhaiter = document.createElement('button');
+    souhaiter.textContent='Souhaiter';
+    souhaiter.onclick= () => {alert('Joyeux anniversaire ' + name);}
+    
+    const remove = document.createElement('button');
+    remove.textContent= 'Supprimer';
+    remove.onclick= () => {
+      div.removeChild( span)
+    }
+    
+  
+    
+    
+    
+    list.appendChild(div)
+    div.appendChild(span)
+    span.appendChild(souhaiter)
+    span.appendChild(remove)
+    
+    
+    nameInput.value='';
+    dateInput.value='';
+    }
+    
+    
+    
+  })
+  
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+  
+</head>
+<body>
+  <form>
+    <input type="text" value="" id="todo" placeholder="ajouter une tache">
+    <button id="submit" oneclick="addtodo()">Ajouter</button>
+  </form>
+
+  <script>
+  let p = document.createElement("p")
+p.textContent = "Je suis un nouveau paragraphe"
+document.body.appendChild(p)
+
+let div = document.querySelector("#container")
+div.removeChild(div.firstElementChild) // supprime le 1er enfant
+  </script>
+</body>
+</html>

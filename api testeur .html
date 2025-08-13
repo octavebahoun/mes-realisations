@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Testeur d'API Complet</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      padding: 2em;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 Formateur d'API – Inspecteur de Réponses</h1>
+  <label for="apiUrl">URL de l'API :</label>
+  <input type="text" id="apiUrl" value="https://animechan.vercel.app/api/random" />
+
+  <button onclick="testerAPI()">Envoyer la requête</button>
+
+  <h2>🟢 Statut & Infos</h2>
+  <pre id="info">...</pre>
+
+  <h2>📦 Données JSON (si applicable)</h2>
+  <pre id="json">...</pre>
+
+  <h2>📨 En-têtes de Réponse</h2>
+  <pre id="headers">...</pre>
+
+  <script>
+    async function testerAPI() {
+      const url = document.getElementById("apiUrl").value;
+      const info = document.getElementById("info");
+      const json = document.getElementById("json");
+      const headers = document.getElementById("headers");
+
+      info.textContent = "Chargement...";
+      json.textContent = "";
+      headers.textContent = "";
+
+      try {
+        const response = await fetch(url);
+
+        // Statut
+        info.textContent = ` Statut : ${response.status} ${response.statusText}\nURL finale : ${response.url}`;
+
+        // Headers
+        let headerText = "";
+        for (let pair of response.headers.entries()) {
+          headerText += `${pair[0]}: ${pair[1]}\n`;
+        }
+        headers.textContent = headerText;
+
+        // Contenu
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          json.textContent = JSON.stringify(data, null, 2);
+        } else {
+          const text = await response.text();
+          json.textContent = text; // Affiche brut (HTML, XML, etc.)
+        }
+
+      } catch (err) {
+        info.textContent = `❌ Erreur : ${err.message}`;
+      }
+    }
+  </script>
+
+</body>
+</html>

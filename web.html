@@ -1,0 +1,113 @@
+<!doctype html>
+
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checklist — 1er jour de stage</title>
+  <style>
+    :root{
+      --bg:#f7fafc; --card:#ffffff; --accent:#0ea5a6; --muted:#6b7280; --shadow: 0 6px 18px rgba(15,23,42,0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#eef2f6);padding:24px;color:#0f172a}
+    .wrapper{max-width:880px;margin:0 auto}header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.logo{width:78px;height:78px;border-radius:12px;background:linear-gradient(135deg,#dff9f8,#e7f7fb);display:flex;align-items:center;justify-content:center;font-size:34px}
+h1{margin:0;font-size:20px}
+p.lead{margin:2px 0 0;color:var(--muted);font-size:14px}
+
+.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:var(--shadow);}
+.grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+ul.checklist{list-style:none;padding:0;margin:0}
+li.item{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;border:1px solid #eef2f5;margin-bottom:10px}
+li.item .checkbox{margin-top:2px}
+li.item label{font-weight:600}
+li.item small{display:block;color:var(--muted);margin-top:4px;font-weight:500}
+
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+button.btn{border:0;padding:10px 12px;border-radius:10px;background:var(--accent);color:white;font-weight:700;cursor:pointer}
+button.ghost{background:transparent;border:1px solid #e6eef0;color:var(--muted);font-weight:700}
+
+aside.info{background:linear-gradient(180deg,#ffffff,#fbfeff);padding:14px;border-radius:12px;border:1px solid #ecf5f5}
+aside h3{margin:0 0 8px 0}
+.maphint{font-size:14px;color:var(--muted);line-height:1.4}
+.tag{display:inline-block;background:#effaf9;border-radius:999px;padding:6px 10px;font-weight:700;margin:6px 4px}
+
+footer{margin-top:14px;text-align:right;color:var(--muted);font-size:13px}
+
+@media print{
+  body{background:white;padding:0}
+  .grid{grid-template-columns:1fr}
+  .controls, .logo{display:none}
+  header p.lead{display:none}
+  footer{display:none}
+}
+
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="logo">🧰</div>
+      <div>
+        <h1>Checklist — 1er jour de stage</h1>
+        <p class="lead">Date : <strong>Lundi 11 août — 08:00</strong> • Lieu : Cotonou, Cadjehoun (Haie Vive) — Immeuble Bénin Digital</p>
+      </div>
+    </header><div class="grid">
+  <main>
+    <div class="card">
+      <h2 style="margin:0 0 12px">Avant de partir 🚶‍♂️</h2>
+      <ul class="checklist" id="checklist">
+        <li class="item"><input class="checkbox" type="checkbox" id="c1"><div><label for="c1">Arriver 20‑30 min en avance</label><small>Idéal : 7:30 — 7:40 pour repérer le lieu et respirer.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c2"><div><label for="c2">Carte d'identité / passeport</label><small>Document d'identification original.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c3"><div><label for="c3">Convocation / e‑mail de confirmation</label><small>Imprimé ou disponible sur ton téléphone.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c4"><div><label for="c4">Tenue soignée</label><small>Smart casual : chemise/polo propre + pantalon. Chaussures propres.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c5"><div><label for="c5">Ordinateur & chargeur</label><small>Chargeur, souris si tu préfères, clé USB (vide).</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c6"><div><label for="c6">Carnet et stylo</label><small>Pour prendre des notes — indispensable.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c7"><div><label for="c7">Copies de CV & diplômes</label><small>2–3 copies papier au cas où.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c8"><div><label for="c8">Coordonnées du contact</label><small>Numéro de la personne à prévenir en cas de retard.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c9"><div><label for="c9">Moyen de transport confirmé</label><small>Vérifie taxi / moto / covoiturage et durée du trajet.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c10"><div><label for="c10">Masque & gel hydroalcoolique</label><small>Optionnel mais pratique si tu veux rester prudent.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c11"><div><label for="c11">Snack léger & bouteille d'eau</label><small>Pour tenir la matinée si la pause est tardive.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c12"><div><label for="c12">Questions préparées</label><small>3–5 questions à poser (missions, équipe, attentes).</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c13"><div><label for="c13">Attitude</label><small>Sourire, ponctualité, politesse, note les noms des personnes.</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c14"><div><label for="c14">Règles de conduite en stage</label><small>Être proactif, poser des questions, respecter la hiérarchie, éviter les distractions (téléphone).</small></div></li>
+        <li class="item"><input class="checkbox" type="checkbox" id="c15"><div><label for="c15">Comprendre le fonctionnement du stage</label><small>Les premiers jours servent à observer, comprendre les outils utilisés et s'intégrer à l'équipe.</small></div></li>
+      </ul>
+
+      <div class="controls">
+        <button class="btn" id="markAll">Tout cocher</button>
+        <button class="ghost" id="unmarkAll">Tout décocher</button>
+        <button class="ghost" id="print">Imprimer / Exporter</button>
+      </div>
+    </div>
+
+    <footer> Ajouter quelque chose ? Je sais pas quoi de plus</footer>
+  </main>
+
+  <aside>
+    <div class="info card">
+      <h3>Repères & conseils 📍</h3>
+      <p class="maphint">Adresse : Rue en face du Supermarché <strong>MON SINAÏ</strong>. Prendre la ruelle, ~30 m avant la fin : immeuble à droite, blanc avec l'enseigne <strong>Bénin Digital</strong>.</p>
+      <div style="margin-top:10px">
+        <span class="tag">Contact : +229 (à compléter)</span>
+        <span class="tag">Arrivée recommandée</span>
+      </div>
+      <hr style="margin:12px 0;border:none;border-top:1px dashed #eef7f7">
+      <p style="font-size:13px;color:var(--muted)">Astuce : arrive en tenue, mais prends une veste légère au cas où la clim' est forte. Note aussi le nom de la personne qui te reçoit.</p>
+    </div>
+  </aside>
+</div>
+
+  </div>  <script>
+    const markAll = document.getElementById('markAll');
+    const unmarkAll = document.getElementById('unmarkAll');
+    const printBtn = document.getElementById('print');
+    markAll.addEventListener('click', ()=>{document.querySelectorAll('#checklist input[type=checkbox]').forEach(c=>c.checked=true)});
+    unmarkAll.addEventListener('click', ()=>{document.querySelectorAll('#checklist input[type=checkbox]').forEach(c=>c.checked=false)});
+    printBtn.addEventListener('click', ()=>window.print());
+  </script></body>
+</html>

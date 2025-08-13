@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+</head>
+<body>
+  <h1>
+    Hello, World!
+  </h1>
+  <script>// server.js
+const express = require("express");
+const app = express();
+app.use(express.json()); // pour lire les données JSON envoyées par le front
+
+let utilisateurs = [
+  { id: 1, nom: "Alice", age: 25 },
+  { id: 2, nom: "Bob", age: 30 }
+];
+
+// Route GET pour voir tous les utilisateurs
+app.get("/users", (req, res) => {
+  res.json(utilisateurs);
+});
+
+app.put("/users/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = utilisateurs.findIndex(u=> u.id === id);
+  
+  if (index === -1 ) { return 
+    res.status(404).json({message : non trouver} );
+  };
+  
+  const {nom, age } = req.body; //
+  utilisateurs.[index] = 
+          { id, nom, age }; //
+  res.json(utilisateurs.[index]);
+});
+
+app.listen(3000, () => {
+  console.log("Serveur backend démarré sur http://localhost:3000");
+});
+  
+  </script>
+</body>
+</html>

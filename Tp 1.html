@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+  <style>
+  li {
+    cursor: pointer;
+    padding: 5px;
+  }
+  .done {
+    text-decoration: line-through;
+    color: gray;
+  }
+  body {
+  background-color: coral;
+  font-family: sans-serif;
+  padding: 2em;
+  color: white;
+  max-width: 600px;
+  margin: auto;
+}
+
+input, button {
+  padding: 10px;
+  margin-top: 1em;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+  
+  li {
+    display:flex;
+     background-color: pink;
+  color: black;
+  font-weight: bold;
+    
+  }
+  .h{
+      background-color: white;
+  color: black;
+  font-weight: bold;
+  }
+  
+ ul {
+  display: grid;
+  grid-template-columns: 1fr; /* correction ici */
+}
+
+.delete {
+  border: 2px solid red;
+  width: auto;       /* 'weight' est incorrect, c'est 'width' */
+  height: auto;      /* height était OK mais inutile à 100% ici */
+  margin-left: 10px;
+  cursor: pointer;
+}
+  .checked {
+  border: 2px solid green;
+  margin-left: 10px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+  <h2>Ma liste de tâches</h2>
+
+<input id="taskInput" type="text" placeholder="Nouvelle tâche">
+<button id="addTask">Ajouter</button>
+
+<ul id="taskList">
+</ul>
+</body>
+<script>
+let todo = document.getElementById('taskInput')
+let list  = document.getElementById('taskList')
+const addtodo  = document.getElementById('addTask')
+
+addtodo.addEventListener('click', () => {
+  let todovalue = todo.value.trim();
+  if (todovalue === "") return;
+
+  let task = document.createElement("li");
+
+  // Créer un span pour le texte de la tâche
+  const taskText = document.createElement('span');
+  taskText.textContent = todovalue;
+
+  // Bouton effectuer
+  const checked = document.createElement('button');
+  checked.className = 'checked';
+  checked.textContent = 'effectuer';
+  checked.onclick = () => {
+    taskText.classList.toggle('done'); // on applique la classe juste au texte
+  }
+
+  // Bouton supprimer
+  const delet = document.createElement('button');
+  delet.className = 'delete';
+  delet.textContent = 'Supprimer';
+  delet.onclick = () => {
+    list.removeChild(task);
+  }
+
+  // Ajouter tout dans le <li>
+  task.appendChild(taskText);
+  task.appendChild(checked);
+  task.appendChild(delet);checked.className
+  list.appendChild(task);
+
+  // Réinitialiser l'input
+  todo.value = "";
+});
+
+</script>

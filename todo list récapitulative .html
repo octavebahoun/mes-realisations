@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestionnaire de Tâches</title>
+  <style>
+    /* 🎨 Style global de la page */
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      padding: 50px 10px;
+    }
+
+    /* 📦 Conteneur principal de l'application */
+    .todo-app {
+      background: white;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    /* 🧾 Titre */
+    h1 {
+      text-align: center;
+      margin-bottom: 1em;
+      color: #333;
+    }
+
+    /* 📝 Groupe input + bouton */
+    .input-group {
+      display: flex;
+      margin-bottom: 1em;
+    }
+
+    /* ✏️ Champ de texte */
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px 0 0 5px;
+      font-size: 1em;
+    }
+
+    /* ➕ Bouton d'ajout */
+    button.add-btn {
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      font-weight: bold;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+
+    /* 📜 Liste des tâches */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    /* 🧾 Élément d'une tâche */
+    li {
+      background: #f9f9f9;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-left: 5px solid #007BFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+    }
+
+    /* ✅ Tâche terminée */
+    li.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    /* 🎛️ Filtres */
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1em;
+    }
+
+    .filters button {
+      flex: 1;
+      margin: 0 5px;
+      padding: 8px;
+      background: #e0e0e0;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 0.9em;
+    }
+
+    .filters button.active {
+      background: #007BFF;
+      color: white;
+    }
+
+    /* ⚙️ Actions sur chaque tâche */
+    .actions button {
+      margin-left: 8px;
+      font-size: 0.8em;
+      padding: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .actions .complete {
+      background: #28a745;
+      color: white;
+    }
+
+    .actions .remove {
+      background: #dc3545;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-app">
+    <h1>📝 Gestionnaire de Tâches</h1>
+
+    <!-- 📝 Input + bouton pour ajouter une tâche -->
+    <div class="input-group">
+      <input type="text" id="taskInput" placeholder="Ajouter une nouvelle tâche">
+      <button class="add-btn" id="addTaskBtn">Ajouter</button>
+    </div>
+
+    <!-- 📃 Liste des tâches -->
+    <ul id="taskList"></ul>
+
+    <!-- 🧮 Filtres de tri -->
+    <div class="filters">
+      <button data-filter="all" class="active">Toutes</button>
+      <button data-filter="active" id="encours">Actives</button>
+      <button data-filter="completed" id="terminer">Terminées</button>
+    </div>
+  </div>
+
+  <script>
+    // 🎯 Récupération des éléments
+    let task = document.getElementById('taskInput')
+    let addtask = document.getElementById('addTaskBtn')
+    let list = document.getElementById('taskList')
+
+    // ✅ Ajout d'une tâche
+    addtask.addEventListener('click', () => {
+      // Si input vide : on alerte
+      if (task.value.trim().length === 0) {
+        alert('Ajouter une tâche valide')
+      } else {
+        // Sinon : on crée la tâche
+        let todo = task.value.trim()
+
+        const li = document.createElement('li')
+        const span = document.createElement('span')
+        const div = document.createElement('div') // Contiendra les boutons
+        div.classList.add('actions') // Classe pour style éventuel
+        span.textContent = todo
+
+        // 🔘 Bouton supprimer
+        const remove = document.createElement('button')
+        remove.textContent = 'Supprimer'
+        remove.classList.add('remove')
+        remove.onclick = () => {
+          list.removeChild(li)
+        }
+
+        // ✅ Bouton terminer
+        const complete = document.createElement('button')
+        complete.textContent = 'Terminer'
+        complete.classList.add('complete')
+        complete.onclick = () => {
+          li.classList.toggle('completed')
+        }
+
+        // Ajout des éléments dans le li
+        li.appendChild(span)
+        div.appendChild(remove)
+        div.appendChild(complete)
+        li.appendChild(div)
+        list.appendChild(li)
+
+        // 🔁 Gestion des filtres
+        document.querySelectorAll('.filters button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            // Supprimer la classe active
+            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'))
+            btn.classList.add('active')
+
+            const filter = btn.dataset.filter
+            const tasks = list.querySelectorAll('li')
+
+            tasks.forEach(task => {
+              if (filter === 'all') {
+                task.style.display = 'flex'
+              } else if (filter === 'active') {
+                task.style.display = task.classList.contains('completed') ? 'none' : 'flex'
+              } else if (filter === 'completed') {
+                task.style.display = task.classList.contains('completed') ? 'flex' : 'none'
+              }
+            })
+          })
+        })
+
+        // 🔃 Réinitialisation du champ
+        task.value = ''
+      }
+    })
+  </script>
+</body>
+</html>

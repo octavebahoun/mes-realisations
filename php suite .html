@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cours PHP complet pour débutant – Octave</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px 40px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    h1 {
+      border-bottom: 3px solid #00796b;
+      padding-bottom: 10px;
+    }
+    nav {
+      margin: 20px 0 40px;
+      background: #e0f2f1;
+      border-left: 6px solid #00796b;
+      padding: 10px 20px;
+      font-size: 1.1em;
+    }
+    nav a {
+      color: #00796b;
+      text-decoration: none;
+      margin-right: 20px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .encadre {
+      background: #e0f7fa;
+      border-left: 5px solid #00796b;
+      padding: 10px 15px;
+      margin: 20px 0;
+      font-style: italic;
+      box-shadow: 0 0 5px rgba(0,121,107,0.1);
+    }
+    .astuce {
+      background: #fff3e0;
+      border-left: 5px solid #f57c00;
+      padding: 10px 15px;
+      margin: 20px 0;
+      box-shadow: 0 0 5px rgba(245,124,0,0.1);
+    }
+    .exercice {
+      background: #e8f5e9;
+      border-left: 5px solid #388e3c;
+      padding: 10px 15px;
+      margin: 20px 0;
+      box-shadow: 0 0 5px rgba(56,142,60,0.1);
+    }
+    code {
+      background-color: #eee;
+      padding: 2px 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+      border-radius: 3px;
+    }
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      overflow-x: auto;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.95em;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    a {
+      color: #00796b;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #00796b;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cours PHP complet pour débutant – Octave</h1>
+
+  <nav>
+    <a href="#part1">Partie 1 : Bases du langage PHP</a>
+    <a href="#part2">Partie 2 : Programmation Orientée Objet (POO)</a>
+    <a href="#part3">Partie 3 : Développement web dynamique</a>
+    <a href="#ressources">Ressources & projets guidés</a>
+  </nav>
+
+  <!-- PARTIE 1 -->
+  <section id="part1">
+    <h2>Partie 1 : Bases du langage PHP</h2>
+
+    <h3>Chapitre 1 : Introduction au PHP</h3>
+    <p>PHP est un langage de programmation principalement utilisé pour créer des sites web dynamiques. Il s’exécute côté serveur et peut générer du contenu HTML, interagir avec des bases de données, gérer des sessions, etc.</p>
+    <div class="encadre">
+      <strong>Mémo :</strong> Pour commencer, installe un serveur local comme <code>XAMPP</code> ou <code>WAMP</code> qui contient Apache, PHP et MySQL. Active le serveur Apache et place tes fichiers PHP dans le dossier <code>htdocs</code> (XAMPP) ou <code>www</code> (WAMP).
+    </div>
+    <div class="astuce">
+      <strong>Astuce développeur :</strong> En développement, active l’affichage des erreurs avec <code>error_reporting(E_ALL); ini_set('display_errors', 1);</code> au début de tes scripts PHP pour faciliter le debug.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée un fichier <code>index.php</code> contenant la ligne <code>&lt;?php echo "Hello, world!"; ?&gt;</code>. Ouvre-le dans ton navigateur via <code>localhost/index.php</code> et vérifie que le message s’affiche.
+    </div>
+
+    <h3>Chapitre 2 : Syntaxe de base</h3>
+    <p>En PHP, les variables commencent toujours par <code>$</code>. Le langage est faiblement typé, donc les types sont attribués automatiquement.</p>
+    <pre><code>// Exemple de variables
+$nom = "Octave";
+$age = 23;
+$estEtudiant = true;
+
+echo "Je m'appelle $nom et j'ai $age ans."; // Interpolation
+</code></pre>
+    <div class="encadre">
+      <strong>Mémo :</strong> Les principaux types en PHP sont <code>string</code>, <code>int</code>, <code>float</code>, <code>bool</code>, <code>array</code>, <code>object</code>, et <code>null</code>.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Déclare des variables pour ton prénom, ton âge, et ton hobby. Affiche une phrase utilisant ces variables.
+    </div>
+
+    <h3>Chapitre 3 : Structures de contrôle</h3>
+    <p>Les structures conditionnelles permettent d’exécuter des blocs de code selon des conditions :</p>
+    <pre><code>if ($age >= 18) {
+    echo "Adulte";
+} else {
+    echo "Mineur";
+}</code></pre>
+    <p>Les boucles permettent de répéter du code :</p>
+    <pre><code>for ($i = 0; $i < 5; $i++) {
+    echo $i;
+}</code></pre>
+    <div class="astuce">
+      <strong>Astuce :</strong> Utilise <code>foreach</code> pour parcourir facilement les tableaux.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée un tableau de fruits puis affiche-les un par un avec une boucle <code>foreach</code>.
+    </div>
+
+    <h3>Chapitre 4 : Fonctions</h3>
+    <p>Les fonctions permettent de regrouper du code réutilisable :</p>
+    <pre><code>function saluer($nom) {
+    return "Bonjour, $nom !";
+}
+
+echo saluer("Octave");</code></pre>
+    <div class="encadre">
+      <strong>Mémo :</strong> Les fonctions peuvent avoir des paramètres, retourner des valeurs, et utiliser des paramètres optionnels.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée une fonction qui calcule la somme de deux nombres et teste-la avec différents arguments.
+    </div>
+
+    <h3>Chapitre 5 : Tableaux</h3>
+    <p>PHP supporte plusieurs types de tableaux : indexés, associatifs, multidimensionnels.</p>
+    <pre><code>$fruits = ["pomme", "banane", "cerise"];
+$infos = ["nom" => "Octave", "age" => 23];</code></pre>
+    <div class="astuce">
+      <strong>Astuce :</strong> Utilise <code>array_map</code> et <code>array_filter</code> pour manipuler les tableaux plus facilement.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée un tableau associatif avec tes amis et leurs âges, puis affiche ceux qui ont plus de 20 ans.
+    </div>
+
+    <h3>Chapitre 6 : Superglobales et entrées utilisateur</h3>
+    <p>Les superglobales permettent d’accéder aux données envoyées par le client et de gérer les sessions :</p>
+    <ul>
+      <li><code>$_GET</code> : données passées dans l’URL</li>
+      <li><code>$_POST</code> : données de formulaire envoyées en POST</li>
+      <li><code>$_SESSION</code> : variables de session côté serveur</li>
+      <li><code>$_COOKIE</code> : cookies stockés sur le client</li>
+    </ul>
+    <div class="encadre">
+      <strong>Mémo :</strong> Toujours filtrer et valider les données entrantes pour éviter les failles de sécurité.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée un formulaire HTML simple qui envoie un nom en POST et affiche-le en PHP.
+    </div>
+  </section>
+
+  <!-- PARTIE 2 -->
+  <section id="part2">
+    <h2>Partie 2 : Programmation Orientée Objet (POO)</h2>
+
+    <h3>Chapitre 7 : Les bases de la POO</h3>
+    <p>La POO permet de modéliser des objets avec des propriétés et des méthodes :</p>
+    <pre><code>class Utilisateur {
+    public $nom;
+    public $age;
+
+    public function __construct($nom, $age) {
+        $this->nom = $nom;
+        $this->age = $age;
+    }
+
+    public function saluer() {
+        return "Bonjour, je suis " . $this->nom;
+    }
+}
+
+$user = new Utilisateur("Octave", 23);
+echo $user->saluer();</code></pre>
+    <div class="encadre">
+      <strong>Mémo :</strong> Le mot-clé <code>$this</code> fait référence à l'objet courant.
+    </div>
+    <div class="astuce">
+      <strong>Astuce :</strong> Utilise la visibilité <code>private</code> pour protéger les propriétés et créer des getters/setters.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée une classe <code>Voiture</code> avec des propriétés <code>marque</code> et <code>couleur</code>, une méthode pour afficher ses infos.
+    </div>
+
+    <h3>Chapitre 8 : Encapsulation et héritage</h3>
+    <p>On peut contrôler l'accès aux propriétés avec <code>public</code>, <code>protected</code> et <code>private</code>. L’héritage permet de créer des classes enfants :</p>
+    <pre><code>class Admin extends Utilisateur {
+    public function supprimerUtilisateur() {
+        return "Utilisateur supprimé";
+    }
+}
+
+$admin = new Admin("Alice", 30);
+echo $admin->saluer();
+echo $admin->supprimerUtilisateur();</code></pre>
+    <div class="encadre">
+      <strong>Mémo :</strong> <code>parent::</code> permet d'appeler les méthodes de la classe parente.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée une classe <code>Employe</code> qui hérite de <code>Utilisateur</code> et ajoute une propriété <code>poste</code>.
+    </div>
+
+    <h3>Chapitre 9 : Espaces de noms et autoloading</h3>
+    <p>Les namespaces évitent les collisions de noms dans les projets importants :</p>
+    <pre><code>namespace MonProjet\Models;
+
+class Utilisateur {
+    // ...
+}</code></pre>
+    <div class="astuce">
+      <strong>Astuce :</strong> Utilise Composer pour autoloader automatiquement tes classes selon la norme PSR-4.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Organise un mini-projet en dossiers avec namespaces et utilise un autoloader simple.
+    </div>
+  </section>
+
+  <!-- PARTIE 3 -->
+  <section id="part3">
+    <h2>Partie 3 : Développement web dynamique avec PHP</h2>
+
+    <h3>Chapitre 10 : Formulaires HTML et traitement PHP</h3>
+    <p>Le formulaire HTML envoie des données à un script PHP :</p>
+    <pre><code>&lt;form method="POST" action="traitement.php"&gt;
+    &lt;input type="text" name="prenom" /&gt;
+    &lt;input type="submit" value="Envoyer" /&gt;
+&lt;/form&gt;</code></pre>
+    <p>En PHP, on récupère les données avec <code>$_POST</code> :</p>
+    <pre><code>$prenom = $_POST['prenom'] ?? '';
+echo "Bonjour, $prenom";</code></pre>
+    <div class="encadre">
+      <strong>Mémo :</strong> Toujours valider et nettoyer les données reçues.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée un formulaire qui demande l’âge, puis affiche « Majeur » ou « Mineur » selon la réponse.
+    </div>
+
+    <h3>Chapitre 11 : Sessions, cookies et gestion d’état</h3>
+    <p>Les sessions permettent de conserver des données entre les pages :</p>
+    <pre><code>session_start();
+$_SESSION['user'] = "Octave";</code></pre>
+    <p>Les cookies sont stockés côté client :</p>
+    <pre><code>setcookie("prenom", "Octave", time()+3600);</code></pre>
+    <div class="astuce">
+      <strong>Astuce :</strong> Regénère l’ID de session après connexion pour sécuriser (<code>session_regenerate_id()</code>).
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Implémente un mini système de login/logout simple avec sessions.
+    </div>
+
+    <h3>Chapitre 12 : Inclusion de fichiers</h3>
+    <p>Pour structurer ton projet, inclure des fichiers est très utile :</p>
+    <pre><code>include 'header.php';
+include_once 'footer.php';</code></pre>
+    <div class="encadre">
+      <strong>Mémo :</strong> <code>require</code> provoque une erreur fatale si le fichier est manquant, <code>include</code> seulement un avertissement.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée un site simple avec un header et footer inclus.
+    </div>
+
+    <h3>Chapitre 13 : Base de données MySQL et PDO</h3>
+    <p>Connexion sécurisée avec PDO :</p>
+    <pre><code>try {
+    $pdo = new PDO("mysql:host=localhost;dbname=ma_base", "root", "");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Erreur : " . $e->getMessage());
+}</code></pre>
+    <p>Requête préparée :</p>
+    <pre><code>$stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE email = :email");
+$stmt->execute(['email' => $email]);
+$user = $stmt->fetch();</code></pre>
+    <div class="encadre">
+      <strong>Mémo :</strong> Toujours utiliser des requêtes préparées pour éviter les injections SQL.
+    </div>
+    <div class="exercice">
+      <strong>Exercice :</strong> Crée une table utilisateurs et insère des données via PHP.
+    </div>
+
+    <h3>Chapitre 14 : Authentification simple</h3>
+    <p>Stockage sécurisé des mots de passe avec <code>password_hash()</code> et vérification avec <code>password_verify()</code> :</p>
+    <pre><code>$hash = password_hash($motdepasse, PASSWORD_DEFAULT);
+
+if (password_verify($motdepasse_saisi, $hash)) {
+    echo "Connexion réussie";
+}</code></pre>
+    <div class="astuce">
+      <strong>Astuce :</strong> Ne jamais stocker les mots de passe en clair.
+    </div>
+    <div class="exercice">
+      <strong>Exercice guidé :</strong> Crée un mini système d’inscription et connexion avec sessions.
+    </div>
+
+    <h3>Projet final guidé : Mini système de gestion d’utilisateurs</h3>
+    <p>Structure simple MVC (sans framework), pages :</p>
+    <ul>
+      <li>Inscription</li>
+      <li>Connexion</li>
+      <li>Espace privé</li>
+      <li>Liste utilisateurs</li>
+      <li>Suppression utilisateur</li>
+    </ul>
+    <div class="encadre">
+      <strong>Mémo projet :</strong> Pense à valider et filtrer toutes les données utilisateurs et sécuriser les sessions.
+    </div>
+    <div class="astuce">
+      <strong>Conseil avisé :</strong> Utilise Git pour gérer les versions de ton code et effectue régulièrement des sauvegardes.
+    </div>

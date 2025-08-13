@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emploi du Temps</title>
+  <style>
+  body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+#timetable {
+  display: grid;
+  grid-template-columns: 100px repeat(5, 1fr);
+  grid-template-rows: 50px repeat(10, 60px);
+  margin: 20px auto;
+  max-width: 800px;
+  border: 1px solid #ccc;
+}
+
+#timetable div {
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#timetable .header {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 300px;
+  border-radius: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+}
+
+button {
+  padding: 10px 20px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+#closeBtn {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <h1>Emploi du Temps</h1>
+  <div id="timetable"></div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeBtn">&times;</span>
+      <h2>Ajouter un cours</h2>
+      <input type="text" id="courseName" placeholder="Nom du cours">
+      <button id="saveBtn">Enregistrer</button>
+    </div>
+  </div>
+
+  <script>
+  const days = ["Heure", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+const timetable = document.getElementById("timetable");
+const modal = document.getElementById("modal");
+const courseInput = document.getElementById("courseName");
+const saveBtn = document.getElementById("saveBtn");
+const closeBtn = document.getElementById("closeBtn");
+
+let selectedCell = null;
+
+// Crée la grille d'emploi du temps
+function generateGrid() {
+  timetable.innerHTML = "";
+
+  for (let i = 0; i <= 10; i++) {
+    for (let j = 0; j < days.length; j++) {
+      const cell = document.createElement("div");
+
+      if (i === 0) {
+        cell.textContent = days[j];
+        cell.classList.add("header");
+      } else if (j === 0) {
+        cell.textContent = `${7 + i}h - ${8 + i}h`;
+        cell.classList.add("header");
+      } else {
+        const key = `${i}-${j}`;
+        const saved = localStorage.getItem(key);
+        cell.textContent = saved || "";
+        cell.dataset.key = key;
+
+        cell.addEventListener("click", () => {
+          selectedCell = cell;
+          courseInput.value = cell.textContent;
+          modal.style.display = "flex";
+        });
+      }
+
+      timetable.appendChild(cell);
+    }
+  }
+}
+
+// Enregistrer ou supprimer un cours
+saveBtn.addEventListener("click", () => {
+  const val = courseInput.value.trim();
+  if (selectedCell) {
+    const key = selectedCell.dataset.key;
+    if (val === "") {
+      // Suppression
+      selectedCell.textContent = "";
+      localStorage.removeItem(key);
+    } else {
+      // Ajout ou modification
+      selectedCell.textContent = val;
+      localStorage.setItem(key, val);
+    }
+    modal.style.display = "none";
+    selectedCell = null;
+  }
+});
+
+// Fermer la modale
+closeBtn.onclick = () => {
+  modal.style.display = "none";
+};
+
+// Fermer si clic en dehors
+window.onclick = (e) => {
+  if (e.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+generateGrid();
+  </script>
+</body>
+</html>
+
+
+Ajoute les matières 

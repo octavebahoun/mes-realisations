@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Full Stack - Compétences Individuelles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f1f5f9;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .progress-container {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            height: 30px;
+            position: relative;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .section {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(51, 65, 85, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: rgba(71, 85, 105, 0.5);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #38bdf8;
+        }
+
+        .section-progress {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .section-content.active {
+            max-height: 2000px;
+        }
+
+        .skills-grid {
+            display: grid;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-item:hover {
+            background: rgba(30, 41, 59, 0.8);
+            transform: translateX(5px);
+        }
+
+        .skill-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #38bdf8;
+        }
+
+        .skill-label {
+            flex: 1;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+        .skill-item.completed .skill-label {
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+
+        .skill-item.completed {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 3px solid #22c55e;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .btn:hover {
+            background: rgba(56, 189, 248, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn.danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .btn.danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Roadmap Full Stack Laravel + Vue + Tailwind</h1>
+            <p>Suivez votre progression dans votre parcours full stack</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalSkills">0</div>
+                <div class="stat-label">Compétences totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedSkills">0</div>
+                <div class="stat-label">Compétences acquises</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completionRate">0%</div>
+                <div class="stat-label">Taux de complétion</div>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-text" id="progressText">0%</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="expandAll()">Tout déplier</button>
+            <button class="btn" onclick="collapseAll()">Tout replier</button>
+            <button class="btn danger" onclick="resetProgress()">Réinitialiser</button>
+        </div>
+
+        <div id="sectionsContainer"></div>
+    </div>
+
+    <script>
+        const roadmapData = [
+            {
+                title: "1. Fondations générales",
+                skills: [
+                    "1- HTML : structure",
+                    "2- HTML : balises sémantiques",
+                    "3- HTML : formulaires",
+                    "4- HTML : attributs",
+                    "5- CSS : box model",
+                    "6- CSS : flexbox",
+                    "7- CSS : grid",
+                    "8- CSS : animations",
+                    "9- CSS : responsive",
+                    "10- JavaScript : variables",
+                    "11- JavaScript : fonctions",
+                    "12- JavaScript : DOM",
+                    "13- JavaScript : fetch API",
+                    "14- JavaScript : async/await"
+                ]
+            },
+            {
+                title: "2. Back-end Laravel",
+                skills: [
+                    "1- Laravel : installation",
+                    "2- Laravel : structure du projet",
+                    "3- Laravel : routes",
+                    "4- Laravel : contrôleurs",
+                    "5- Laravel : vues Blade",
+                    "6- Laravel : migrations",
+                    "7- Laravel : Eloquent",
+                    "8- Laravel : CRUD",
+                    "9- Laravel : validation",
+                    "10- Laravel : authentification",
+                    "11- Laravel : relations",
+                    "12- Laravel : API REST",
+                    "13- Laravel : jobs",
+                    "14- Laravel : events",
+                    "15- Laravel : tests"
+                ]
+            },
+            {
+                title: "3. Front-end Vue.js",
+                skills: [
+                    "1- Vue.js : bases",
+                    "2- Vue.js : directives",
+                    "3- Vue.js : props",
+                    "4- Vue.js : events",
+                    "5- Vue.js : réactivité",
+                    "6- Vue.js : Vue Router",
+                    "7- Vue.js : Pinia",
+                    "8- Vue.js : Axios",
+                    "9- Vue.js : Composition API",
+                    "10- Vue.js : lazy loading",
+                    "11- Vue.js : Inertia.js",
+                    "12- Vue.js : intégration Laravel"
+                ]
+            },
+            {
+                title: "4. Tailwind CSS",
+                skills: [
+                    "1- Tailwind : bases",
+                    "2- Tailwind : classes utilitaires",
+                    "3- Tailwind : flexbox",
+                    "4- Tailwind : grid",
+                    "5- Tailwind : responsive",
+                    "6- Tailwind : dark mode",
+                    "7- Tailwind : plugins",
+                    "8- Tailwind : composants réutilisables"
+                ]
+            },
+            {
+                title: "5. Outils & Bonnes pratiques",
+                skills: [
+                    "1- Git & GitHub",
+                    "2- Composer",
+                    "3- NPM",
+                    "4- Déploiement",
+                    "5- Sécurité",
+                    "6- Optimisation performance"
+                ]
+            },
+            {
+                title: "6. Projets pratiques",
+                skills: [
+                    "1- Blog Laravel + Vue",
+                    "2- To-Do List API",
+                    "3- Dashboard admin",
+                    "4- Marketplace / mini ERP"
+                ]
+            }
+        ];
+
+        let totalSkills = 0;
+        let completedSkills = 0;
+
+        function initializeRoadmap() {
+            const container = document.getElementById('sectionsContainer');
+
+            roadmapData.forEach((section, sectionIndex) => {
+                totalSkills += section.skills.length;
+
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                sectionDiv.innerHTML = `
+                    <div class="section-header" onclick="toggleSection(${sectionIndex})">
+                        <span class="section-title">${section.title}</span>
+                        <span class="section-progress" id="progress-${sectionIndex}">0/${section.skills.length}</span>
+                    </div>
+                    <div class="section-content" id="content-${sectionIndex}">
+                        <div class="skills-grid">
+                            ${section.skills.map((skill, skillIndex) => {
+                    const globalIndex = getGlobalIndex(sectionIndex, skillIndex);
+                    return `
+                                    <div class="skill-item" id="skill-${globalIndex}" onclick="toggleSkill(${globalIndex})">
+                                        <input type="checkbox" 
+                                               class="skill-checkbox" 
+                                               id="checkbox-${globalIndex}"
+                                               onchange="handleSkillChange(${globalIndex})">
+                                        <label class="skill-label" for="checkbox-${globalIndex}">${skill}</label>
+                                    </div>
+                                `;
+                }).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(sectionDiv);
+            });
+
+            loadProgress();
+            updateStats();
+        }
+
+        function getGlobalIndex(sectionIndex, skillIndex) {
+            let index = 0;
+            for (let i = 0; i < sectionIndex; i++) {
+                index += roadmapData[i].skills.length;
+            }
+            return index + skillIndex;
+        }
+
+        function getSectionAndSkillIndex(globalIndex) {
+            let currentIndex = 0;
+            for (let sectionIndex = 0; sectionIndex < roadmapData.length; sectionIndex++) {
+                for (let skillIndex = 0; skillIndex < roadmapData[sectionIndex].skills.length; skillIndex++) {
+                    if (currentIndex === globalIndex) {
+                        return { sectionIndex, skillIndex };
+                    }
+                    currentIndex++;
+                }
+            }
+        }
+
+        function toggleSkill(globalIndex) {
+            const checkbox = document.getElementById(`checkbox-${globalIndex}`);
+            checkbox.checked = !checkbox.checked;
+            handleSkillChange(globalIndex);
+        }
+
+        function handleSkillChange(globalIndex) {
+            const checkbox = document.getElementById(`checkbox-${globalIndex}`);
+            const skillItem = document.getElementById(`skill-${globalIndex}`);
+
+            if (checkbox.checked) {
+                skillItem.classList.add('completed');
+            } else {
+                skillItem.classList.remove('completed');
+            }
+
+            localStorage.setItem(`skill_${globalIndex}`, checkbox.checked);
+            updateStats();
+            updateSectionProgress();
+        }
+
+        function toggleSection(sectionIndex) {
+            const content = document.getElementById(`content-${sectionIndex}`);
+            content.classList.toggle('active');
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.section-content').forEach(content => {
+                content.classList.add('active');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.section-content').forEach(content => {
+                content.classList.remove('active');
+            });
+        }
+
+        function loadProgress() {
+            for (let i = 0; i < totalSkills; i++) {
+                const checkbox = document.getElementById(`checkbox-${i}`);
+                const skillItem = document.getElementById(`skill-${i}`);
+                const isChecked = localStorage.getItem(`skill_${i}`) === 'true';
+
+                checkbox.checked = isChecked;
+                if (isChecked) {
+                    skillItem.classList.add('completed');
+                }
+            }
+        }
+
+        function updateStats() {
+            completedSkills = 0;
+            for (let i = 0; i < totalSkills; i++) {
+                if (localStorage.getItem(`skill_${i}`) === 'true') {
+                    completedSkills++;
+                }
+            }
+
+            const completionRate = Math.round((completedSkills / totalSkills) * 100);
+
+            document.getElementById('totalSkills').textContent = totalSkills;
+            document.getElementById('completedSkills').textContent = completedSkills;
+            document.getElementById('completionRate').textContent = completionRate + '%';
+            document.getElementById('progressBar').style.width = completionRate + '%';
+            document.getElementById('progressText').textContent = completionRate + '%';
+
+            updateSectionProgress();
+        }
+
+        function updateSectionProgress() {
+            roadmapData.forEach((section, sectionIndex) => {
+                let sectionCompleted = 0;
+                let currentIndex = 0;
+
+                for (let i = 0; i < sectionIndex; i++) {
+                    currentIndex += roadmapData[i].skills.length;
+                }
+
+                for (let i = 0; i < section.skills.length; i++) {
+                    if (localStorage.getItem(`skill_${currentIndex + i}`) === 'true') {
+                        sectionCompleted++;
+                    }
+                }
+
+                document.getElementById(`progress-${sectionIndex}`).textContent =
+                    `${sectionCompleted}/${section.skills.length}`;
+            });
+        }
+
+        function resetProgress() {
+            if (confirm('Êtes-vous sûr de vouloir réinitialiser toute votre progression ?')) {
+                for (let i = 0; i < totalSkills; i++) {
+                    localStorage.removeItem(`skill_${i}`);
+                    const checkbox = document.getElementById(`checkbox-${i}`);
+                    const skillItem = document.getElementById(`skill-${i}`);
+                    checkbox.checked = false;
+                    skillItem.classList.remove('completed');
+                }
+                updateStats();
+            }
+        }
+
+        // Initialisation
+        initializeRoadmap();
+    </script>
+</body>
+
+</html>

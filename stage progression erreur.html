@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Dashboard de Suivi d'Erreurs</title>
+    <style>
+        /* 🎨 Style global de la page */
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 50px 10px;
+        }
+
+        /* 📦 Conteneur principal de l'application */
+        .error-dashboard {
+            background: #fff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        /* 🧾 Titre */
+        h1 {
+            text-align: center;
+            margin-bottom: 1em;
+            color: #212529;
+            font-weight: 600;
+        }
+
+        /* 📝 Formulaire d'ajout d'erreur */
+        .error-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1em;
+        }
+
+        .error-form input,
+        .error-form textarea {
+            flex: 1 1 200px;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .error-form textarea {
+            min-height: 40px;
+            resize: vertical;
+        }
+
+        .error-form button {
+            padding: 10px 20px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .error-form button:hover {
+            background: #0b5ed7;
+        }
+
+        /* 📜 Liste des erreurs */
+        .error-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .error-item {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-left: 5px solid #dc3545;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            position: relative;
+            transition: box-shadow 0.2s ease-in-out;
+        }
+
+        .error-item-valid {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-left: 5px solid rgb(43, 243, 43);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            position: relative;
+            transition: box-shadow 0.2s ease-in-out;
+        }
+
+        .error-item:hover {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .error-item .remove {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #d81313;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .error-item .remove:hover {
+            background: #bb2d3b;
+        }
+
+        .validate {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgb(80, 133, 0);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .validate:hover {
+            background: rgb(127, 206, 8);
+        }
+
+        .error-label {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .error-field {
+            margin-bottom: 2px;
+        }
+
+        li {
+            display: grid;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="error-dashboard">
+        <h1>�️ Dashboard de Suivi d'Erreurs</h1>
+        <!-- Formulaire d'ajout d'erreur -->
+        <form class="error-form" id="errorForm">
+            <input type="text" id="descInput" placeholder="Description de l'erreur" required>
+            <input type="text" id="fileInput" placeholder="Fichier (ex: index.php)" required style="max-width:120px">
+            <input type="number" id="lineInput" placeholder="Ligne" min="1" style="max-width:80px">
+            <textarea id="hypInput" placeholder="Hypothèses (facultatif)"></textarea>
+            <textarea id="corrInput" placeholder="Correction proposée (facultatif)"></textarea>
+            <button type="submit">Ajouter</button>
+        </form>
+        <!-- Liste des erreurs -->
+        <ul class="error-list" id="errorList"></ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // 🎯 Récupération des éléments du dashboard
+        const errorForm = document.getElementById('errorForm');
+        const descInput = document.getElementById('descInput');
+        const fileInput = document.getElementById('fileInput');
+        const lineInput = document.getElementById('lineInput');
+        const hypInput = document.getElementById('hypInput');
+        const corrInput = document.getElementById('corrInput');
+        const errorList = document.getElementById('errorList');
+        const erroritem = document.getElementById('error-item');
+
+        // Utilitaire pour générer un id unique (timestamp + random)
+        function uniqueId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        }
+
+        // Charger les erreurs depuis le localStorage
+        function loadErrors() {
+            const data = localStorage.getItem('dashboard_errors');
+            if (!data) return [];
+            try {
+                return JSON.parse(data);
+            } catch {
+                return [];
+            }
+        }
+
+        // Sauvegarder les erreurs dans le localStorage
+        function saveErrors(errors) {
+            localStorage.setItem('dashboard_errors', JSON.stringify(errors));
+        }
+
+        // Afficher toutes les erreurs dans le DOM
+        function renderErrors(errors) {
+            errorList.innerHTML = '';
+            errors.forEach(error => {
+                const li = document.createElement('li');
+                li.className = 'error-item';
+                li.dataset.id = error.id;
+
+                // Description
+                const desc = document.createElement('div');
+                desc.className = 'error-field';
+                desc.innerHTML = `<span class="error-label">Erreur :</span> ${error.desc}`;
+                li.appendChild(desc);
+
+                // Localisation
+                const loc = document.createElement('div');
+                loc.className = 'error-field';
+                let locText = `<span class="error-label">Localisation :</span> ${error.file}`;
+                if (error.line) locText += `, ligne ${error.line}`;
+                loc.innerHTML = locText;
+                li.appendChild(loc);
+
+                // Hypothèses
+                if (error.hyp && error.hyp.trim() !== '') {
+                    const hyp = document.createElement('div');
+                    hyp.className = 'error-field';
+                    hyp.innerHTML = `<span class="error-label">Hypothèses :</span> ${error.hyp}`;
+                    li.appendChild(hyp);
+                }
+
+                // Correction
+                if (error.corr && error.corr.trim() !== '') {
+                    const corr = document.createElement('div');
+                    corr.className = 'error-field';
+                    corr.innerHTML = `<span class="error-label">Correction proposée :</span> ${error.corr}`;
+                    li.appendChild(corr);
+                }
+
+                // Bouton supprimer
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove';
+                removeBtn.textContent = 'Supprimer';
+                removeBtn.onclick = () => {
+                    // Supprimer l'erreur du tableau et du localStorage
+                    const idx = errors.findIndex(er => er.id === error.id);
+                    if (idx !== -1) {
+                        errors.splice(idx, 1);
+                        saveErrors(errors);
+                        renderErrors(errors);
+                    }
+                };
+
+                li.appendChild(removeBtn)
+
+                // Bouton validate
+                const validateBtn = document.createElement('button');
+                validateBtn.className = ' validate';
+                validateBtn.textContent = 'Valider';
+                validateBtn.onclick = () => {
+
+                    erroritem.classList.toggle("error-item-valid");
+                };
+
+
+                errorList.appendChild(li);
+            });
+        }
+
+        // Initialisation : charger et afficher les erreurs
+        let errors = loadErrors();
+        renderErrors(errors);
+
+        // Ajout d'une erreur
+        errorForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (descInput.value.trim() === '' || fileInput.value.trim() === '') {
+                alert('Veuillez remplir au moins la description et le fichier.');
+                return;
+            }
+            const error = {
+                id: uniqueId(),
+                desc: descInput.value,
+                file: fileInput.value,
+                line: lineInput.value,
+                hyp: hypInput.value,
+                corr: corrInput.value
+            };
+            errors.push(error);
+            saveErrors(errors);
+            renderErrors(errors);
+            errorForm.reset();
+        });
+
+
+
+        const lazyloadRunObserver = () => {
+            const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
+            const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        let lazyloadBackground = entry.target;
+                        if (lazyloadBackground) {
+                            lazyloadBackground.classList.add('e-lazyloaded');
+                        }
+                        lazyloadBackgroundObserver.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '200px 0px 200px 0px' });
+            lazyloadBackgrounds.forEach((lazyloadBackground) => {
+                lazyloadBackgroundObserver.observe(lazyloadBackground);
+            });
+        };
+        const events = [
+            'DOMContentLoaded',
+            'elementor/lazyload/observe',
+        ];
+        events.forEach((event) => {
+            document.addEventListener(event, lazyloadRunObserver);
+        });
+    </script>
+</body>
+
+</html>
