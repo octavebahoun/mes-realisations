@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cahier de code — Octave</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass: rgba(255,255,255,0.03);
+      --radius:12px; --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef8;background:linear-gradient(180deg,#071023 0%, #071631 100%);}
+    .app{display:grid;grid-template-columns:320px 1fr;gap:18px;padding:18px;height:100vh}
+    header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter: blur(6px);}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#2dd4bf);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    h1{font-size:18px;margin:0}
+    .controls{display:flex;gap:8px}
+
+    /* Sidebar */
+    .sidebar{background:var(--card);padding:12px;border-radius:var(--radius);overflow:auto;height:calc(100vh - 120px)}
+    .topbar{display:flex;gap:8px;margin-bottom:10px}
+    input[type="search"], .new-btn{flex:1}
+    input, button, select{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+    .new-btn{background:linear-gradient(90deg,var(--accent),#4f46e5);color:white;border:none;cursor:pointer}
+    .note-list{display:flex;flex-direction:column;gap:8px}
+    .note-item{padding:10px;border-radius:10px;background:var(--glass);cursor:pointer;display:flex;flex-direction:column}
+    .note-item.active{outline:2px solid rgba(124,58,237,0.3)}
+    .note-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+
+    /* Editor */
+    .editor{display:grid;grid-template-rows:auto 1fr;gap:12px}
+    .editor-top{display:flex;gap:8px;align-items:center}
+    .tags{display:flex;gap:6px;flex-wrap:wrap}
+    .tag{background:rgba(255,255,255,0.04);padding:4px 8px;border-radius:999px;font-size:12px}
+    textarea{width:100%;height:100%;min-height:300px;border-radius:10px;padding:12px;font-family:var(--mono);font-size:13px;border:1px solid rgba(255,255,255,0.03);background:#041225;color:#e6eef8}
+
+    .editor-main{display:grid;grid-template-columns:1fr 380px;gap:12px}
+    .panel{background:var(--card);padding:12px;border-radius:12px;height:100%;display:flex;flex-direction:column}
+    .preview{overflow:auto;padding:12px;border-radius:8px;background:#031126;color:#e6eef8;white-space:pre-wrap}
+
+    .actions{display:flex;gap:8px}
+    .btn{padding:8px 12px;border-radius:10px;border:none;background:#18314a;color:white;cursor:pointer}
+    .danger{background:#b91c1c}
+    footer{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+
+    /* responsive */
+    @media (max-width:900px){.app{grid-template-columns:1fr;}.editor-main{grid-template-columns:1fr}.sidebar{height:auto;order:2}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">CB</div>
+        <div>
+          <h1>Cahier de code</h1>
+          <div style="font-size:12px;color:var(--muted)">Notes locales • sauvegarde automatique dans LocalStorage</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="exportBtn" title="Exporter le cahier (JSON)" class="btn">Exporter</button>
+        <input id="importFile" type="file" accept="application/json" style="display:none" />
+        <button id="importBtn" class="btn">Importer</button>
+        <button id="newNoteTop" class="btn">+ Nouvelle note</button>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <div class="topbar">
+        <input id="search" type="search" placeholder="Rechercher titre, tag ou contenu..." />
+        <button id="newNote" class="new-btn">Créer</button>
+      </div>
+      <div style="margin-bottom:8px;display:flex;gap:8px">
+        <select id="sortSelect"><option value="modified">Trier: récentes</option><option value="title">Titre A→Z</option><option value="created">Créées (anciennes)</option></select>
+        <select id="filterLang"><option value="">Tous langages</option><option>HTML</option><option>CSS</option><option>JS</option><option>Python</option><option>SQL</option></select>
+      </div>
+      <div id="notes" class="note-list"></div>
+      <footer>Raccourci: Ctrl/Cmd+S pour sauvegarder • Ctrl/Cmd+K pour créer une nouvelle note</footer>
+    </aside>
+
+    <main class="editor">
+      <div class="editor-top">
+        <input id="title" placeholder="Titre de la note" style="flex:1" />
+        <select id="lang"><option value="">Langage</option><option>HTML</option><option>CSS</option><option>JS</option><option>Python</option><option>SQL</option></select>
+        <input id="tagsInput" placeholder="tags, séparés par des virgules" style="width:220px" />
+      </div>
+
+      <div class="editor-main">
+        <div class="panel">
+          <textarea id="content" placeholder="Écris ton code ou notes ici... (markdown basique supporté)" spellcheck="false"></textarea>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <div class="actions">
+              <button id="saveBtn" class="btn">Sauvegarder</button>
+              <button id="deleteBtn" class="btn danger">Supprimer</button>
+              <button id="previewBtn" class="btn">Aperçu</button>
+            </div>
+            <div style="color:var(--muted);font-size:13px">Dernière sauvegarde: <span id="lastSaved">—</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin:0 0 8px 0">Aperçu & Informations</h3>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Rendu brut (préservé) et métadonnées.</div>
+          <div class="preview" id="previewArea">Aucun contenu sélectionné.</div>
+          <div style="margin-top:auto;display:flex;gap:8px;align-items:center;justify-content:space-between">
+            <div style="font-size:12px;color:var(--muted)">Taille: <span id="size">0</span> octets</div>
+            <div style="display:flex;gap:8px">
+              <button id="downloadCode" class="btn">Télécharger .txt</button>
+              <button id="cloneNote" class="btn">Cloner</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Simple cahier de code en localStorage
+    const STORAGE_KEY = 'cahier_code_v1_octave';
+
+    // DOM
+    const notesEl = document.getElementById('notes');
+    const titleEl = document.getElementById('title');
+    const contentEl = document.getElementById('content');
+    const tagsEl = document.getElementById('tagsInput');
+    const langEl = document.getElementById('lang');
+    const saveBtn = document.getElementById('saveBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const previewBtn = document.getElementById('previewBtn');
+    const previewArea = document.getElementById('previewArea');
+    const lastSavedEl = document.getElementById('lastSaved');
+    const sizeEl = document.getElementById('size');
+    const searchEl = document.getElementById('search');
+    const newNoteBtns = [document.getElementById('newNote'), document.getElementById('newNoteTop')];
+    const exportBtn = document.getElementById('exportBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFile = document.getElementById('importFile');
+    const sortSelect = document.getElementById('sortSelect');
+    const filterLang = document.getElementById('filterLang');
+    const downloadCode = document.getElementById('downloadCode');
+    const cloneNoteBtn = document.getElementById('cloneNote');
+
+    let notes = []; // array of {id,title,content,tags,lang,created,modified}
+    let activeId = null;
+    let autoSaveTimer = null;
+
+    // utils
+    const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+    const saveToStorage = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+    const loadFromStorage = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const now = () => new Date().toISOString();
+
+    function init(){
+      notes = loadFromStorage();
+      if(!notes.length){
+        // sample note
+        notes.push({id:uid(),title:'Exemple: fetch API',content:'fetch("/api").then(r=>r.json()).then(console.log);',tags:['fetch','api'],lang:'JS',created:now(),modified:now()});
+        saveToStorage();
+      }
+      renderList();
+      if(notes[0]) openNote(notes[0].id);
+    }
+
+    function renderList(){
+      const q = searchEl.value.trim().toLowerCase();
+      const langFilter = filterLang.value;
+      let list = [...notes];
+      if(sortSelect.value==='title') list.sort((a,b)=>a.title.localeCompare(b.title));
+      else if(sortSelect.value==='created') list.sort((a,b)=>new Date(a.created)-new Date(b.created));
+      else list.sort((a,b)=>new Date(b.modified)-new Date(a.modified));
+      list = list.filter(n=>{
+        if(langFilter && n.lang!==langFilter) return false;
+        if(!q) return true;
+        return (n.title||'').toLowerCase().includes(q) || (n.content||'').toLowerCase().includes(q) || (n.tags||[]).join(' ').toLowerCase().includes(q);
+      });
+
+      notesEl.innerHTML='';
+      for(const n of list){
+        const item = document.createElement('div');
+        item.className='note-item'+(n.id===activeId ? ' active':'');
+        item.innerHTML = `<strong style="margin-bottom:6px">${escapeHtml(n.title||'Sans titre')}</strong>
+          <div class="note-meta"><span>${n.tags? n.tags.join(', '): ''}</span><span>${new Date(n.modified).toLocaleString()}</span></div>`;
+        item.onclick = ()=> openNote(n.id);
+        notesEl.appendChild(item);
+      }
+    }
+
+    function openNote(id){
+      const n = notes.find(x=>x.id===id);
+      if(!n) return;
+      activeId = id;
+      titleEl.value = n.title;
+      contentEl.value = n.content;
+      tagsEl.value = (n.tags||[]).join(', ');
+      langEl.value = n.lang || '';
+      lastSavedEl.textContent = new Date(n.modified).toLocaleString();
+      sizeEl.textContent = new Blob([n.content||'']).size;
+      previewArea.textContent = n.content || '';
+      renderList();
+    }
+
+    function createNote(){
+      const n = {id:uid(),title:'Nouvelle note',content:'',tags:[],lang:'',created:now(),modified:now()};
+      notes.unshift(n);
+      saveToStorage();
+      openNote(n.id);
+      renderList();
+    }
+
+    function saveNote(){
+      if(!activeId) return alert('Aucune note sélectionnée');
+      const n = notes.find(x=>x.id===activeId);
+      if(!n) return;
+      n.title = titleEl.value.trim() || 'Sans titre';
+      n.content = contentEl.value;
+      n.tags = tagsEl.value.split(',').map(t=>t.trim()).filter(Boolean);
+      n.lang = langEl.value;
+      n.modified = now();
+      saveToStorage();
+      lastSavedEl.textContent = new Date(n.modified).toLocaleString();
+      sizeEl.textContent = new Blob([n.content||'']).size;
+      renderList();
+      flashSaved();
+    }
+
+    function flashSaved(){
+      saveBtn.textContent='Sauvegardé ✓';
+      setTimeout(()=>saveBtn.textContent='Sauvegarder',900);
+    }
+
+    function deleteNote(){
+      if(!activeId) return;
+      if(!confirm('Supprimer cette note ? Cette action est irréversible localement.')) return;
+      notes = notes.filter(x=>x.id!==activeId);
+      saveToStorage();
+      activeId = null;
+      if(notes.length) openNote(notes[0].id);
+      else{
+        createNote();
+      }
+      renderList();
+    }
+
+    function preview(){
+      // simple code preview: preserve indentation and escape html
+      previewArea.textContent = contentEl.value || '';
+    }
+
+    // helpers
+    function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // keyboard shortcuts
+    document.addEventListener('keydown', e=>{
+      const mod = (e.ctrlKey || e.metaKey);
+      if(mod && e.key.toLowerCase()==='s'){ e.preventDefault(); saveNote(); }
+      if(mod && e.key.toLowerCase()==='k'){ e.preventDefault(); createNote(); }
+    });
+
+    // auto save while editing
+    contentEl.addEventListener('input', ()=>{
+      if(autoSaveTimer) clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(()=>{ saveNote(); }, 1200);
+    });
+
+    titleEl.addEventListener('input', ()=>{
+      if(autoSaveTimer) clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(()=>{ saveNote(); }, 1200);
+    });
+
+    saveBtn.onclick = saveNote;
+    deleteBtn.onclick = deleteNote;
+    previewBtn.onclick = preview;
+    newNoteBtns.forEach(b=>b.onclick = createNote);
+    searchEl.oninput = renderList;
+    sortSelect.onchange = renderList;
+    filterLang.onchange = renderList;
+
+    // export/import
+    exportBtn.onclick = ()=>{
+      const data = JSON.stringify({notes, exportedAt:now()}, null, 2);
+      const blob = new Blob([data], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download = 'cahier_code_export_'+(new Date().toISOString().slice(0,19).replace(/[:T]/g,'-'))+'.json'; a.click(); URL.revokeObjectURL(url);
+    }
+    importBtn.onclick = ()=> importFile.click();
+    importFile.onchange = e=>{
+      const f = e.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = ev =>{
+        try{
+          const obj = JSON.parse(ev.target.result);
+          if(Array.isArray(obj)){
+            notes = obj; // legacy
+          } else if(obj.notes) notes = obj.notes;
+          saveToStorage();
+          renderList();
+          if(notes[0]) openNote(notes[0].id);
+          alert('Import terminé.');
+        }catch(err){ alert('Fichier invalide'); }
+      };
+      reader.readAsText(f);
+      e.target.value='';
+    }
+
+    downloadCode.onclick = ()=>{
+      if(!activeId) return alert('Aucune note sélectionnée');
+      const n = notes.find(x=>x.id===activeId);
+      const blob = new Blob([n.content||''], {type:'text/plain'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (n.title||'note')+'.txt'; a.click(); URL.revokeObjectURL(a.href);
+    }
+
+    cloneNoteBtn.onclick = ()=>{
+      if(!activeId) return;
+      const n = notes.find(x=>x.id===activeId);
+      const copy = {...n,id:uid(),title:n.title+' (copie)',created:now(),modified:now()};
+      notes.unshift(copy); saveToStorage(); renderList(); openNote(copy.id);
+    }
+
+    // init
+    init();
+  </script>
+</body>
+</html>
